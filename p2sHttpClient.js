@@ -53,9 +53,13 @@ function negotiate() {
 
       return fetch("/p2sOffer", {
         body: JSON.stringify({
-          type: offer.type,
-          sdp: offer.sdp,
-          framerate: frameRate,
+          username: "amitpatange",
+          password: "password",
+          offer: {
+            type: offer.type,
+            sdp: offer.sdp,
+            framerate: frameRate,
+          },
         }),
         headers: {
           "Content-Type": "application/json",
@@ -94,6 +98,10 @@ function start() {
   dc.onmessage = function(evt) {
     console.log(evt.data);
   };
+  window.addEventListener("beforeunload", function(e) {
+    dc.send("closing");
+    dc.close();
+  });
 
   // navigator.mediaDevices
   //   .getUserMedia({
